@@ -17,11 +17,11 @@ export default function Login() {
     draggable: true,
     theme: "dark",
   };
-  useEffect(() => {
-    if (localStorage.getItem("chat-app-current-user")) {
-      navigate("/");
-    }
-  }, []);
+//   useEffect(() => {
+//     if (localStorage.getItem("chat-app-current-user")) {
+//       navigate("/");
+//     }
+//   }, []);
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
