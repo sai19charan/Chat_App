@@ -5,10 +5,10 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//import { registerRoute } from "../utils/APIRoutes";
+import { registerRoute } from "../utils/APIRoutes";
 
 export default function Register() {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -26,11 +26,11 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [cfmPassword, setCfmPassword] = useState(false);
 
-//   useEffect(() => {
-//     if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-//       navigate("/");
-//     }
-//   }, []);
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-current-user")) {
+      navigate("/");
+    }
+  }, []);
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -38,6 +38,8 @@ export default function Register() {
 
   const handleValidation = () => {
     const { password, confirmPassword, username, email } = values;
+    console.log(password);
+    console.log(confirmPassword);
     if (password !== confirmPassword) {
       toast.error(
         "Password and confirm password should be same.",
@@ -67,23 +69,23 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-    //   const { email, username, password } = values;
-    //   const { data } = await axios.post(registerRoute, {
-    //     username,
-    //     email,
-    //     password,
-    //   });
+      const { email, username, password } = values;
+      const { data } = await axios.post(registerRoute, {
+        username,
+        email,
+        password,
+      });
 
-    //   if (data.status === false) {
-    //     toast.error(data.msg, toastOptions);
-    //   }
-    //   if (data.status === true) {
-    //     localStorage.setItem(
-    //       process.env.REACT_APP_LOCALHOST_KEY,
-    //       JSON.stringify(data.user)
-    //     );
-    //     navigate("/");
-    //   }
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions);
+      }
+      if (data.status === true) {
+        localStorage.setItem(
+            "chat-app-current-user",
+          JSON.stringify(data.user)
+        );
+        navigate("/");
+      }
     }
   };
 
@@ -126,7 +128,7 @@ export default function Register() {
             <input
               type={cfmPassword ? "text" : "password"}
               placeholder="Confirm Password"
-              name="confirmpassword"
+              name="confirmPassword"
               onChange={(e) => handleChange(e)}
             />
             <button
