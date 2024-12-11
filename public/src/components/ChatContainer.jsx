@@ -17,11 +17,11 @@ export default function ChatContainer({ currentChat }) {
     const data = await JSON.parse(
       localStorage.getItem("chat-app-current-user")
     );
-    // const response = await axios.post(recieveMessageRoute, {
-    //   from: data._id,
-    //   to: currentChat._id,
-    // });
-    // setMessages(response.data);
+    const response = await axios.post(recieveMessageRoute, {
+      from: data._id,
+      to: currentChat._id,
+    });
+    setMessages(response.data);
   }
   getmessages();
 }, [currentChat]);
@@ -53,9 +53,9 @@ export default function ChatContainer({ currentChat }) {
       message: msg,
     });
 
-    // const msgs = [...messages];
-    // msgs.push({ fromSelf: true, message: msg });
-    // setMessages(msgs);
+    const msgs = [...messages];
+    msgs.push({ fromSelf: true, message: msg });
+    setMessages(msgs);
   };
 
 //   useEffect(() => {
@@ -91,9 +91,11 @@ export default function ChatContainer({ currentChat }) {
         <Logout />
       </div>
       <div className="chat-messages">
-        {/* {messages.map((message) => {
+        {messages.map((message) => {
           return (
-            <div ref={scrollRef} key={uuidv4()}>
+            <div 
+            // ref={scrollRef} key={uuidv4()}
+            >
               <div
                 className={`message ${
                   message.fromSelf ? "sended" : "recieved"
@@ -105,7 +107,7 @@ export default function ChatContainer({ currentChat }) {
               </div>
             </div>
           );
-        })} */}
+        })}
       </div>
       <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
