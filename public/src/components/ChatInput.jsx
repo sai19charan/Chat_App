@@ -13,8 +13,6 @@ export default function ChatInput({ handleSendMsg }) {
 
   const handleEmojiClick = (emojiObject,event) => {
     let message = msg;
-    console.log(msg);
-    console.log(emojiObject);
     // const codePoints = emojiObject.unified.split("-").map((code) => "0x" + code);
     // const emoji = String.fromCodePoint(...codePoints); // Convert to raw emoji
     message += emojiObject.emoji;

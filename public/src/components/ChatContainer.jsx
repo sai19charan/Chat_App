@@ -38,20 +38,20 @@ export default function ChatContainer({ currentChat }) {
 //   }, [currentChat]);
 
   const handleSendMsg = async (msg) => {
-    alert("working");
-    // const data = await JSON.parse(
-    //   localStorage.getItem("chat-app-current-user")
-    // );
+    //alert("working");
+    const data = await JSON.parse(
+      localStorage.getItem("chat-app-current-user")
+    );
     // socket.current.emit("send-msg", {
     //   to: currentChat._id,
     //   from: data._id,
     //   msg,
     // });
-    // await axios.post(sendMessageRoute, {
-    //   from: data._id,
-    //   to: currentChat._id,
-    //   message: msg,
-    // });
+    await axios.post(sendMessageRoute, {
+      from: data._id,
+      to: currentChat._id,
+      message: msg,
+    });
 
     // const msgs = [...messages];
     // msgs.push({ fromSelf: true, message: msg });
