@@ -27,7 +27,7 @@ mongoose.connect(process.env.MONGO_URL)
   
   const io = socket(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin:process.env.CORS_URL ,
       credentials: true,
     },
   });
