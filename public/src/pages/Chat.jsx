@@ -14,6 +14,7 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [onlineUsers,setOnlineUsers]=useState([]);
   useEffect(()=>{
     const getuser=async () => {
         if (!localStorage.getItem("chat-app-current-user")) {
@@ -33,9 +34,16 @@ export default function Chat() {
         // console.log("current user",currentUser);
       socket.current = io(host);
       socket.current.emit("add-user", currentUser._id);
+      
+      socket.current.on("online-users",(serveronlineusers)=>{
+        console.log("receievd online users");
+        setOnlineUsers(serveronlineusers);
+        for (let s of serveronlineusers) {
+          console.log(s);
+        }
+      })
     }
   }, [currentUser]);
-
   useEffect(()=>{
     const getcontacts=async () => {
         if (currentUser) {
@@ -58,7 +66,7 @@ export default function Chat() {
     <>
       <Container>
         <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
+          <Contacts contacts={contacts} onlineUsers={onlineUsers} changeChat={handleChatChange} />
           {currentChat === undefined ? (
             <Welcome />
           ) : (

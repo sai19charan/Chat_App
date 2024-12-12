@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 
-export default function Contacts({ contacts, changeChat }) {
+export default function Contacts({ contacts, onlineUsers, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -30,12 +30,13 @@ export default function Contacts({ contacts, changeChat }) {
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
+              const isOnline = onlineUsers.includes(contact._id); 
               return (
                 <div
                   key={contact._id}
                   className={`contact ${
                     index === currentSelected ? "selected" : ""
-                  }`}
+                  } ${isOnline ? "online" : ""}`}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
                   <div className="avatar">
@@ -46,6 +47,7 @@ export default function Contacts({ contacts, changeChat }) {
                   </div>
                   <div className="username">
                     <h3>{contact.username}</h3>
+                    {isOnline && <span className="status">Online</span>}
                   </div>
                 </div>
               );
@@ -116,13 +118,27 @@ const Container = styled.div`
         }
       }
       .username {
+        display: flex;
+        flex-direction: column;
+        gap:0.2rem;
         h3 {
           color: white;
         }
+        .status{
+          font-size: 0.8rem;
+          color: #4caf50; /* Green text for "Online" */
+          margin-top: 0.4rem;
+        }
       }
     }
+
     .selected {
       background-color: #9a86f3;
+      .username{
+        .status{
+          color: mediumspringgreen;
+        }
+      }
     }
   }
 
